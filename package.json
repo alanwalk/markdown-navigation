@@ -1,0 +1,60 @@
+{
+    "name": "markdown-navigation",
+    "displayName": "Markdown Navigation",
+    "description": "Auto genreate markdown navigation panel to the activity bar.",
+    "version": "1.0.0",
+    "icon": "img/icon.png",
+    "license": "MIT",
+    "publisher": "AlanWalk",
+    "author": {
+        "email": "alanwalk93@gmail.com",
+        "name": "Alan Walk",
+        "url": "https://alanwalk.github.io/"
+    },
+    "homepage": "https://github.com/AlanWalk/markdown-navigation",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AlanWalk/markdown-navigation.git"
+    },
+    "bugs": {
+        "url": "https://github.com/AlanWalk/markdown-navigation/issues"
+    },
+    "keywords": [
+        "markdown",
+        "toc",
+        "navigation"
+    ],
+    "engines": {
+        "vscode": "^1.22.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:markdown"
+    ],
+    "contributes": {
+        "views": {
+            "explorer": [
+                {
+                    "id": "MarkdownNavigation",
+                    "name": "Markdown Navigation"
+                }
+            ]
+        }
+    },
+    "main": "./out/extension",
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "typescript": "^2.6.1",
+        "vscode": "^1.1.6",
+        "@types/node": "^7.0.43",
+        "@types/mocha": "^2.2.42"
+    }
+}
