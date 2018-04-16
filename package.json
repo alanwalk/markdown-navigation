@@ -1,8 +1,8 @@
 {
     "name": "markdown-navigation",
-    "displayName": "Markdown Navigation",
-    "description": "Auto genreate markdown navigation panel to the activity bar.",
-    "version": "1.0.0",
+    "displayName": "%markdown_navigation_name%",
+    "description": "%markdown_navigation_description%",
+    "version": "1.0.1",
     "icon": "img/icon.png",
     "license": "MIT",
     "publisher": "AlanWalk",
@@ -38,7 +38,8 @@
             "explorer": [
                 {
                     "id": "MarkdownNavigation",
-                    "name": "Markdown Navigation"
+                    "name": "%markdown_navigation_name%",
+                    "when": "resourceLangId == 'markdown'"
                 }
             ]
         }

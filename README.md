@@ -25,7 +25,7 @@ ext install markdown-navigation
 
 ## Usage
 - Just open markdown document.
-- Navigation will auto update on document file saved or changed.
+- Navigation will auto update on document file saved.
 
 ## What's New?
 [CHANGELOG](https://github.com/AlanWalk/markdown-navigation/blob/master/CHANGELOG.md)

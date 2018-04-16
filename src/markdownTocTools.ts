@@ -21,30 +21,32 @@ export class MarkdownTocTools {
         let headerList = [];
         if (vscode.window.activeTextEditor) {
             let doc = vscode.window.activeTextEditor.document;
-            let codeBlockChecker = new CodeBlockChecker();
-    
-            for (let lineNum = 0; lineNum < doc.lineCount; ++lineNum) {
-                let lineText = doc.lineAt(lineNum).text
-    
-                // Skip CodeBlock
-                if (codeBlockChecker.pushAndCheck(lineText)) continue;
-                
-                // Special Header
-                if (lineNum > 0) {
-                    let lastLineNum = lineNum - 1
-                    let lastLineText = doc.lineAt(lastLineNum).text
-                    if (lineText.match(REGEXP_SPECIAL_HEADER_1)) {
-                        headerList.push(new MarkdownHeader(lastLineText, lastLineNum, 1));
-                        continue;
-                    }else if (lineText.match(REGEXP_SPECIAL_HEADER_2)) {
-                        headerList.push(new MarkdownHeader(lastLineText, lastLineNum, 2));
-                        continue;
+            if (doc.languageId == "markdown") {
+                let codeBlockChecker = new CodeBlockChecker();
+        
+                for (let lineNum = 0; lineNum < doc.lineCount; ++lineNum) {
+                    let lineText = doc.lineAt(lineNum).text
+        
+                    // Skip CodeBlock
+                    if (codeBlockChecker.pushAndCheck(lineText)) continue;
+                    
+                    // Special Header
+                    if (lineNum > 0) {
+                        let lastLineNum = lineNum - 1
+                        let lastLineText = doc.lineAt(lastLineNum).text
+                        if (lineText.match(REGEXP_SPECIAL_HEADER_1)) {
+                            headerList.push(new MarkdownHeader(lastLineText, lastLineNum, 1));
+                            continue;
+                        }else if (lineText.match(REGEXP_SPECIAL_HEADER_2)) {
+                            headerList.push(new MarkdownHeader(lastLineText, lastLineNum, 2));
+                            continue;
+                        }
                     }
-                }
-    
-                let headerResult = lineText.match(REGEXP_HEADER);
-                if (headerResult) {
-                    headerList.push(new MarkdownHeader(headerResult[2], lineNum, headerResult[1].length));
+        
+                    let headerResult = lineText.match(REGEXP_HEADER);
+                    if (headerResult) {
+                        headerList.push(new MarkdownHeader(headerResult[2], lineNum, headerResult[1].length));
+                    }
                 }
             }
         }
