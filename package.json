@@ -2,8 +2,8 @@
     "name": "markdown-navigation",
     "displayName": "%markdown_navigation_name%",
     "description": "%markdown_navigation_description%",
-    "version": "1.0.1",
-    "icon": "img/icon.png",
+    "version": "1.0.2",
+    "icon": "resources/icon.png",
     "license": "MIT",
     "publisher": "AlanWalk",
     "author": {
@@ -22,7 +22,9 @@
     "keywords": [
         "markdown",
         "toc",
-        "navigation"
+        "navigation",
+        "markdowntoc",
+        "markdownnavigation"
     ],
     "engines": {
         "vscode": "^1.22.0"

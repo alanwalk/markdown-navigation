@@ -16,7 +16,7 @@
 ## Features
 Auto genreate markdown navigation panel to the activity bar.
 
-![screenshot](./img/screenshot.png)
+![screenshot](./resources/screenshot.png)
 
 ## Installation
 ```

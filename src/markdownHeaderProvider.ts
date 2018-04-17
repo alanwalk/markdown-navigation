@@ -5,10 +5,11 @@ import { MarkdownHeader } from './markdownHeader';
 
 class MarkdownHeaderNode extends vscode.TreeItem {
 	constructor(
-		public readonly label: string,
-		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-		public readonly command?: vscode.Command,
-		public readonly childNodes?: MarkdownHeaderNode[]
+		public label: string,
+		public collapsibleState: vscode.TreeItemCollapsibleState,
+		public depth: number,
+		public command: vscode.Command,
+		public childNodes: MarkdownHeaderNode[]
 	)
 	{
 		super(label, collapsibleState);
@@ -31,34 +32,44 @@ export class MarkdownHeaderProvider implements vscode.TreeDataProvider<MarkdownH
 	
 	SetHeaderList(headerList : MarkdownHeader[]) {
 		this.tree = [];
-		let minDepth = 6;
-		headerList.forEach(element => {
-			minDepth = Math.min(element.depth, minDepth);
-		});
-		for (let index = 0; index < headerList.length; index++) {
-			if (headerList[index].depth == minDepth) {
-				this.tree.push(this.generateNode(headerList, index));
+		let rootStack : MarkdownHeaderNode[] = [];
+		headerList.forEach(header => {
+			while ((rootStack.length > 0) && (rootStack[rootStack.length - 1].depth >= header.depth)) {
+				rootStack.pop();
 			}
-		}
+			let headerNode = this.generateNode(header);
+			if ((rootStack.length > 0)) {
+				let top = rootStack[rootStack.length - 1]
+				top.childNodes.push(headerNode);
+			} else {
+				this.tree.push(headerNode);
+			}
+			rootStack.push(headerNode);
+		});
+		this.tree.forEach(node => {
+			this.refreshNodeCollapsibleState(node);
+		});
 		this.onHeaderListChanged.fire();
 	}
 
-	private generateNode(headerList : MarkdownHeader[], rootIndex : number): MarkdownHeaderNode {		
-		let header = headerList[rootIndex];
-		let childNodes: MarkdownHeaderNode[] = []
-		for (let index = rootIndex + 1; index < headerList.length; index++) {
-			if (header.depth < headerList[index].depth) {
-				childNodes.push(this.generateNode(headerList, index));
-			} else {
-				break;
-			}
+	private refreshNodeCollapsibleState(node : MarkdownHeaderNode) {
+		if (node.childNodes.length > 0) {
+			node.collapsibleState = vscode.TreeItemCollapsibleState.Expanded
+			node.childNodes.forEach(childNode => {
+				this.refreshNodeCollapsibleState(childNode);
+			});
 		}
+	}
+
+	private generateNode(header : MarkdownHeader): MarkdownHeaderNode {
+		let childNodes: MarkdownHeaderNode[] = []
 		return new MarkdownHeaderNode(
 			header.title,
-			(childNodes.length > 0) ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None,
+			vscode.TreeItemCollapsibleState.None,
+			header.depth,
 			{
 				command: 'extension.selectHeader',
-				title: 'Select TOC Header',
+				title: 'Select Header',
 				arguments: [header.lineNum]
 			},
 			childNodes
