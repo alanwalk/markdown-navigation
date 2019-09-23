@@ -14,7 +14,7 @@
 <!-- /TOC -->
 
 ## Features
-Auto genreate markdown navigation panel to the activity bar.
+Auto generate markdown navigation panel to the activity bar.
 
 ![screenshot](./resources/screenshot.png)
 
